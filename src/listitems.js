@@ -4,7 +4,7 @@ import {FaTrashAlt} from 'react-icons/fa'
 function Listitems({items,deleteItem,handleCheckBox}) {
 
   return (
-    <div className='listitems'>
+    <div className='listitems' >
      {items.length>0 ? 
       (items.map(item=>{
         return (

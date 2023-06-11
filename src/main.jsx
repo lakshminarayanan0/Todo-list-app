@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Additems from './additems'
 import Searchitems from './searchitems'
 import Listitems from './listitems'
@@ -6,9 +6,12 @@ import Itemscount from './itemscount'
 
 function Main() {
 
+
   const [items,setItems]=useState('')
   const [listItem,setListItem]=useState([])
   const [searchInput,setSearchInput]=useState('')
+
+  
 
   useEffect(() => {
     // Load data from local storage on initial render
@@ -20,6 +23,7 @@ function Main() {
 
   useEffect(()=>{
     //stores listitem value for everytime listItem is rendered or updated
+    console.log(listItem);
     localStorage.setItem('listItems',JSON.stringify(listItem))
   },[listItem])
 
@@ -27,16 +31,16 @@ function Main() {
 
   // this handleList function gets user input for every change occurs in inputfield
   
-  const handleList=(e)=>{
+  const handleList=useCallback((e)=>{
 
    setItems(e.target.value)
    
-  }
+  },[])
 
 
   //this function is responsible to add items when the add button is clicked
 
-  const handleAddItems=()=>{
+  const handleAddItems=useCallback(()=>{
   if(items!==''){
   const newItem={
     id:Date.now(),
@@ -45,10 +49,11 @@ function Main() {
   }
   
  setListItem([...listItem,newItem])
- console.log([...listItem,newItem]);
+ 
+
  setItems('')
 }
-  }
+  },[items])
 
 
 
@@ -94,10 +99,14 @@ function Main() {
   : []);
 
 
+
+
+
   return (
     <main className='main'>
 
-    <Additems 
+    <div className='inputArea'>
+      <Additems 
     items={items} 
     handleList={handleList} 
     handleAddItems={handleAddItems}/>
@@ -105,14 +114,14 @@ function Main() {
     <Searchitems 
     handleSearch={handleSearch}
     />
+    </div>
 
-    <Listitems 
+  <Listitems 
     items={filteredList} 
     deleteItem={deleteItem}
     handleCheckBox={handleCheckBox}
     />
-
-
+  
     <Itemscount count={listItem.length}/>
     
     </main>

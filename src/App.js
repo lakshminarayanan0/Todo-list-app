@@ -6,9 +6,10 @@ import './app.css'
 
 
 function App() {
+  
   return (
     <div className="App">
-   <Header title={'Todo List App'}/>
+   <Header title={'Todo List App'} />
    <Main/>
    <Footer companyName='Fullstack Developer'/>
       
